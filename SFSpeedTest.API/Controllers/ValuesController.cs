@@ -8,6 +8,7 @@ using System.Fabric;
 using System.Linq;
 using SFSpeedTest.Common;
 using System.Threading.Tasks;
+using SFSpeedTest.FSharp.Models;
 
 
 namespace SFSpeedTest.API.Controllers
@@ -23,9 +24,10 @@ namespace SFSpeedTest.API.Controllers
             var lastItem = await _rentalService.GetLastItem();
             sw.Stop();
             var sb = new System.Text.StringBuilder();
-            foreach(var i in lastItem)
+            foreach (var i in lastItem)
             {
-                sb.AppendLine($"{i.FirstName} {i.LastName}");
+                //sb.AppendLine($"{i.FirstName} {i.LastName}");
+                sb.Append($"<p>Got listing {i.Name} with ID '{i.Id}</p>");
             }
             return $"Got {sb.ToString()} in {sw.Elapsed.TotalMilliseconds} milliseconds";
         }
@@ -44,7 +46,7 @@ namespace SFSpeedTest.API.Controllers
                     LastName = "Doe",
                     Age = 20
                 };
-                await _rentalService.AddItem(model);
+                await _rentalService.AddItem(Defaults.CreateListing());
             }
             return $"Added {id} items in {sw.Elapsed.Seconds} seconds.";
         }

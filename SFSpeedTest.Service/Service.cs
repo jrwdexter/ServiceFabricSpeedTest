@@ -9,6 +9,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using SFSpeedTest.Common;
+using SFSpeedTest.FSharp.Models;
 
 namespace SFSpeedTest.Service
 {
@@ -21,9 +22,9 @@ namespace SFSpeedTest.Service
             : base(context)
         { }
 
-        public async Task<bool> AddItem(MyModel myModel)
+        public async Task<bool> AddItem(Listing myModel)
         {
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<System.Guid, MyModel>>("myDictionary");
+            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<System.Guid, Listing>>("myDictionary");
             using(var tx = this.StateManager.CreateTransaction())
             {
                 await myDictionary.AddAsync(tx, Guid.NewGuid(), myModel);
@@ -33,20 +34,20 @@ namespace SFSpeedTest.Service
             return true;
         }
 
-        public async Task<IEnumerable<MyModel>> GetLastItem()
+        public async Task<IEnumerable<Listing>> GetLastItem()
         {
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<System.Guid, MyModel>>("myDictionary");
+            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<System.Guid, Listing>>("myDictionary");
             using (var tx = this.StateManager.CreateTransaction())
             {
-                var count = await myDictionary.GetCountAsync(tx);
+                //var count = await myDictionary.GetCountAsync(tx);
                 var results = await GetResults(tx, myDictionary);
                 return results;
             }
         }
 
-        private async Task<IEnumerable<MyModel>> GetResults(Microsoft.ServiceFabric.Data.ITransaction tx, IReliableDictionary<Guid, MyModel> myDictionary)
+        private async Task<IEnumerable<T>> GetResults<T>(Microsoft.ServiceFabric.Data.ITransaction tx, IReliableDictionary<Guid, T> myDictionary)
         {
-            var results = new List<MyModel>();
+            var results = new List<T>();
             var enumerable = await myDictionary.CreateEnumerableAsync(tx);
             var enumerator = enumerable.GetAsyncEnumerator();
             var ct = new CancellationToken();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SFSpeedTest.FSharp.Models;
 
 namespace SFSpeedTest.Common
 {
@@ -16,7 +17,7 @@ namespace SFSpeedTest.Common
     }
     public interface IService : Microsoft.ServiceFabric.Services.Remoting.IService
     {
-        Task<bool> AddItem(MyModel myModel);
-        Task<IEnumerable<MyModel>> GetLastItem();
+        Task<bool> AddItem(Listing myModel);
+        Task<IEnumerable<Listing>> GetLastItem();
     }
 }

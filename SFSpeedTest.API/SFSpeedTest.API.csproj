@@ -117,6 +117,10 @@
       <Project>{f982c720-9d3a-4454-8f4c-924b46d7db4e}</Project>
       <Name>SFSpeedTest.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SFSpeedTest.FSharp.Models\SFSpeedTest.FSharp.Models.fsproj">
+      <Project>{488f0a59-3f65-4bb7-bbd2-c88566386ab7}</Project>
+      <Name>SFSpeedTest.FSharp.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

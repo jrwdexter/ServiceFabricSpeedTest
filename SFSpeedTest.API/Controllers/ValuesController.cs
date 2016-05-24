@@ -10,7 +10,7 @@ using SFSpeedTest.Common;
 using System.Threading.Tasks;
 
 
-namespace API.Controllers
+namespace SFSpeedTest.API.Controllers
 {
     public class ValuesController : ApiController
     {
@@ -27,7 +27,7 @@ namespace API.Controllers
             {
                 sb.AppendLine($"{i.FirstName} {i.LastName}");
             }
-            return $"Got {sb.ToString()} in {sw.Elapsed.Seconds} seconds";
+            return $"Got {sb.ToString()} in {sw.Elapsed.TotalMilliseconds} milliseconds";
         }
 
         // GET api/values/5 

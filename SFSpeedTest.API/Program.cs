@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace API
+namespace SFSpeedTest.API
 {
     internal static class Program
     {

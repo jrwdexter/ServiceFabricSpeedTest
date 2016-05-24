@@ -8,7 +8,7 @@ using Microsoft.Owin.Hosting;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Owin;
 
-namespace API
+namespace SFSpeedTest.API
 {
     internal class OwinCommunicationListener : ICommunicationListener
     {

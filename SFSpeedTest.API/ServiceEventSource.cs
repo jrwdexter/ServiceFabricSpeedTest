@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace Service
+namespace SFSpeedTest.API
 {
-    [EventSource(Name = "MyCompany-SFSpeedTest-Service")]
+    [EventSource(Name = "MyCompany-SFSpeedTest-API")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
@@ -65,19 +65,20 @@ namespace Service
         }
 
         [NonEvent]
-        public void ServiceMessage(StatefulService service, string message, params object[] args)
+        public void ServiceMessage(ServiceContext serviceContext, string message, params object[] args)
         {
             if (this.IsEnabled())
             {
+
                 string finalMessage = string.Format(message, args);
                 ServiceMessage(
-                    service.Context.ServiceName.ToString(),
-                    service.Context.ServiceTypeName,
-                    service.Context.ReplicaId,
-                    service.Context.PartitionId,
-                    service.Context.CodePackageActivationContext.ApplicationName,
-                    service.Context.CodePackageActivationContext.ApplicationTypeName,
-                    service.Context.NodeContext.NodeName,
+                    serviceContext.ServiceName.ToString(),
+                    serviceContext.ServiceTypeName,
+                    GetReplicaOrInstanceId(serviceContext),
+                    serviceContext.PartitionId,
+                    serviceContext.CodePackageActivationContext.ApplicationName,
+                    serviceContext.CodePackageActivationContext.ApplicationTypeName,
+                    serviceContext.NodeContext.NodeName,
                     finalMessage);
             }
         }
@@ -162,6 +163,22 @@ namespace Service
         #endregion
 
         #region Private methods
+        private static long GetReplicaOrInstanceId(ServiceContext context)
+        {
+            StatelessServiceContext stateless = context as StatelessServiceContext;
+            if (stateless != null)
+            {
+                return stateless.InstanceId;
+            }
+
+            StatefulServiceContext stateful = context as StatefulServiceContext;
+            if (stateful != null)
+            {
+                return stateful.ReplicaId;
+            }
+
+            throw new NotSupportedException("Context type not supported.");
+        }
 #if UNSAFE
         private int SizeInBytes(string s)
         {

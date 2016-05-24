@@ -10,7 +10,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using SFSpeedTest.Common;
 
-namespace Service
+namespace SFSpeedTest.Service
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.

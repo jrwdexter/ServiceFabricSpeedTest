@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using Owin;
 
-namespace API
+namespace SFSpeedTest.API
 {
     public static class Startup
     {
